@@ -13,6 +13,5 @@ contract Color is ERC721 {
      function mint(string memory hex_color_code) public {
         uint _id = colors.push(hex_color_code);
         _mint(msg.sender, _id);
-		
      }
 }
