@@ -1,4 +1,4 @@
-const { assert } = require('chai')
+const { assert, expect } = require('chai')
 
 const Color = artifacts.require('./Color.sol')
 
@@ -44,8 +44,28 @@ contract('Color', (accounts) => {
     })
 
     it('does not mint the same token twice', async () => {
-      await contract.mint('#4211EE')
-      await contract.mint('#4211EE').should.be.rejected
+      contract.mint('#AAA222').then(() => {
+        contract.mint('#AAA222').should.be.rejected
+      })
+    })
+
+    describe('indexing', async () => {
+      it('lists colors', async () => {
+        // Mint 3 more tokens
+        await contract.mint('#5386E4')
+        await contract.mint('#FFFFFF')
+        await contract.mint('#000000')
+        let totalSupply = await contract.totalSupply()
+
+        let result = []
+        for (let i = 0; i < totalSupply; i++) {
+          color = await contract.colors(i) // Call the array getter
+          result.push(color)
+        }
+
+        let expected = ['#4211EE', '#AAA222', '#5386E4', '#FFFFFF', '#000000']
+        assert.equal(result.join(','), expected.join(','))
+      })
     })
   })
 })
