@@ -78,6 +78,35 @@ function App() {
       })
   }
 
+  const mintForm = () => {
+    return (
+      <form onSubmit={(event) => handleFormSubmit(event)}>
+        <input
+          type="text"
+          className="form-control mb-1"
+          placeholder="e.g. #FFFFFF"
+          onChange={(event) => setInputColor(event.target.value)}
+        />
+        <input
+          type="submit"
+          className="btn btn-block btn-primary"
+          value="MINT"
+        />
+      </form>
+    )
+  }
+
+  const colorTokens = () => {
+    return colors.map((color, key) => {
+      return (
+        <div key={key} className="col-md-3 mb-3">
+          <div>{color}</div>
+          <div style={getTokenStyles(color)}></div>
+        </div>
+      )
+    })
+  }
+
   return (
     colors && (
       <div>
@@ -103,33 +132,12 @@ function App() {
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
                 <h1>Issue Token</h1>
-                <form onSubmit={(event) => handleFormSubmit(event)}>
-                  <input
-                    type="text"
-                    className="form-control mb-1"
-                    placeholder="e.g. #FFFFFF"
-                    onChange={(event) => setInputColor(event.target.value)}
-                  />
-                  <input
-                    type="submit"
-                    className="btn btn-block btn-primary"
-                    value="MINT"
-                  />
-                </form>
+                {mintForm()}
               </div>
             </main>
           </div>
           <hr />
-          <div className="row text-center">
-            {colors.map((color, key) => {
-              return (
-                <div key={key} className="col-md-3 mb-3">
-                  <div></div>
-                  <div style={getTokenStyles(color)}>{color}</div>
-                </div>
-              )
-            })}
-          </div>
+          <div className="row text-center">{colorTokens()}</div>
         </div>
       </div>
     )
