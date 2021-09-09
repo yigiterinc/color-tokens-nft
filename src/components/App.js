@@ -69,7 +69,7 @@ function App() {
     // send a modifying transaction
     contract.methods
       .mint(color)
-      .send({ from: account })
+      .send({ from: account, maxPriorityFeePerGas: null, maxFeePerGas: null })
       .once('receipt', async () => {
         // once is a one time event listener, listening to receipt event
         setColors([...colors, color])
@@ -137,6 +137,7 @@ function App() {
             </main>
           </div>
           <hr />
+          <h2>{totalSupply} tokens found</h2>
           <div className="row text-center">{colorTokens()}</div>
         </div>
       </div>
