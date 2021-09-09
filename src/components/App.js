@@ -5,7 +5,7 @@ import Color from '../abis/Color.json'
 function App() {
   const [account, setAccount] = useState(null)
   const [contract, setContract] = useState(null)
-  const [totalSupply, setTotalSupply] = useState(null)
+  const [totalSupply, setTotalSupply] = useState(0)
   const [colors, setColors] = useState(null)
   const [inputColor, setInputColor] = useState(null)
 
@@ -46,7 +46,7 @@ function App() {
       const contract = new web3.eth.Contract(abi, address)
       setContract(contract)
       const totalSupply = await contract.methods.totalSupply().call()
-      setTotalSupply(totalSupply)
+      setTotalSupply(parseInt(totalSupply._hex, 16))
 
       let colors = []
       for (let i = 0; i < totalSupply; i++) {
@@ -74,7 +74,7 @@ function App() {
         // once is a one time event listener, listening to receipt event
         setColors([...colors, color])
         const totalSupply = await contract.methods.totalSupply().call()
-        setTotalSupply(totalSupply)
+        setTotalSupply(parseInt(totalSupply._hex, 16))
       })
   }
 
@@ -137,7 +137,7 @@ function App() {
             </main>
           </div>
           <hr />
-          <h2>{totalSupply} tokens found</h2>
+          <h2>Found {totalSupply} tokens</h2>
           <div className="row text-center">{colorTokens()}</div>
         </div>
       </div>
